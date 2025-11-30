@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player: one
+  bet_color: MyString
+  bet_amount: 1
+  wheel_result: MyString
+  result: MyString
+  player_winnings: 1
+  weather_condition: MyString
+  weather_temp: 9.99
+  weather_description: MyString
+
+two:
+  player: two
+  bet_color: MyString
+  bet_amount: 1
+  wheel_result: MyString
+  result: MyString
+  player_winnings: 1
+  weather_condition: MyString
+  weather_temp: 9.99
+  weather_description: MyString
