@@ -87,20 +87,7 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  primary: &primary_production
-    <<: *default
-    database: casino_ruleta_production
-    username: casino_ruleta
-    password: <%= ENV["CASINO_RULETA_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: casino_ruleta_production_cache
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: casino_ruleta_production_queue
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: casino_ruleta_production_cable
-    migrations_paths: db/cable_migrate
+  <<: *default
+  # Esta línea es la CLAVE. Le dice a Rails: "Usa el link que te dio Render"
+  url: <%= ENV["DATABASE_URL"] %>
+  adapter: postgresql
