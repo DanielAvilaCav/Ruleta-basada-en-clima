@@ -34,7 +34,7 @@ El sistema implementa una lógica de comportamiento condicionada por variables e
     * Uso de **Turbo/Hotwire** para actualizaciones de saldo y rondas sin recargar la página.
     * Temporizador visual regresivo.
 
-## 🛠 Stack Tecnológico
+##  Stack Tecnológico
 
 * **Lenguaje:** Ruby 
 * **Framework:** Rails 
@@ -42,7 +42,7 @@ El sistema implementa una lógica de comportamiento condicionada por variables e
 * **APIs:** OpenWeatherMap API
 * **Gemas Clave:** `httparty` (Conexión API), `whenever` (Cron jobs), `dotenv-rails`.
 
-## ⚙️ Instalación Local
+##  Instalación Local
 
 Si deseas correr este proyecto en tu máquina local:
 
