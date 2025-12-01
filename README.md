@@ -4,17 +4,17 @@ Aplicación web desarrollada en **Ruby on Rails** que simula una mesa de casino 
 
 **URL de Producción:** [https://casino-ruleta-daniel.onrender.com]
 
-## 📋 Descripción del Proyecto
+##  Descripción del Proyecto
 
 El sistema gestiona una mesa de ruleta automatizada donde múltiples jugadores realizan apuestas simultáneas. El sistema consume la API de **OpenWeatherMap** para obtener datos meteorológicos en tiempo real y condicionar la estrategia de juego.
 
 ### Inteligencia Artificial y Lógica de Negocio
 El sistema implementa una lógica de comportamiento condicionada por variables externas:
 
-* ** Clima Despejado (Soleado):** Los jugadores se vuelven **agresivos**. Aumentan su porcentaje de apuesta y arriesgan más al color Verde (mayor pago, menor probabilidad).
-* **  Clima Lluvioso:** Los jugadores se vuelven **conservadores**. Apuestan porcentajes menores (70% de lo habitual) y prefieren colores seguros (Rojo/Negro).
-* ** Clima Nieve:** Comportamiento **muy conservador** (50% de la apuesta habitual).
-* ** Nublado:** Comportamiento estándar.
+*  **Clima Despejado (Soleado)**: Los jugadores se vuelven **agresivos**. Aumentan su porcentaje de apuesta y arriesgan más al color Verde (mayor pago, menor probabilidad).
+* **Clima Lluvioso:** Los jugadores se vuelven **conservadores**. Apuestan porcentajes menores (70% de lo habitual) y prefieren colores seguros (Rojo/Negro).
+* **Clima Nieve:** Comportamiento **muy conservador** (50% de la apuesta habitual).
+* **Nublado:** Comportamiento estándar.
 
 ##  Funcionalidades Principales
 
