@@ -25,86 +25,76 @@
     </div>
   </div>
 </div>
-<div class="section" style="text-align: center; background-color: #2c3e50; color: white;">
-  <h3>⏳ Próxima Ronda Automática en:</h3>
-  <div id="countdown" style="font-size: 40px; font-weight: bold; color: #f1c40f;">Calculando...</div>
-  <small>El sistema actualizará la página automáticamente al llegar a cero.</small>
-</div>
+<% if @players.any? %>
 
-<script>
-  // Definimos la función por fuera para poder llamarla de varias formas
-  function iniciarReloj() {
-    console.log("⏰ Iniciando script del reloj...");
-    
-    var countdownElement = document.getElementById("countdown");
-    if (!countdownElement) {
-        console.log("❌ No encontré el elemento countdown");
-        return;
-    }
+  <div class="section" style="text-align: center; background-color: #2c3e50; color: white;">
+    <h3> Próxima Ronda Automática en:</h3>
+    <div id="countdown" style="font-size: 40px; font-weight: bold; color: #f1c40f;">Calculando...</div>
+    <small>El sistema actualizará la página automáticamente al llegar a cero.</small>
+  </div>
 
-    // Usamos milisegundos puros (to_f) para evitar errores de fecha
-    var lastRoundSeconds = <%= @last_round ? @last_round.created_at.to_f : (Time.now - 4.minutes).to_f %>;
-    var lastRoundMs = lastRoundSeconds * 1000;
-    var threeMinutesMs = 180 * 1000;
-    var nextRoundMs = lastRoundMs + threeMinutesMs;
+  <script>
+    function iniciarReloj() {
+      var countdownElement = document.getElementById("countdown");
+      if (!countdownElement) return;
 
-    // Limpiar intervalo anterior si existe
-    if (window.timerInterval) clearInterval(window.timerInterval);
+      var lastRoundSeconds = <%= @last_round ? @last_round.created_at.to_f : (Time.now - 4.minutes).to_f %>;
+      var lastRoundMs = lastRoundSeconds * 1000;
+      var threeMinutesMs = 180 * 1000;
+      var nextRoundMs = lastRoundMs + threeMinutesMs;
 
-    function updateTimer() {
-      var now = new Date().getTime();
-      var distance = nextRoundMs - now;
+      if (window.timerInterval) clearInterval(window.timerInterval);
 
-      // Si ya pasó el tiempo
-      if (distance < 0) {
-        countdownElement.innerHTML = "🔄 Actualizando...";
-        
-        // Protección: Si estamos MUY atrasados (servidor lento)
-        if (distance < -5000) {
-           console.log("⚠️ Muy atrasado, esperando 2s...");
-           setTimeout(() => {
-             // Intenta recargar con Turbo, si falla, usa recarga clásica
+      function updateTimer() {
+        var now = new Date().getTime();
+        var distance = nextRoundMs - now;
+
+        if (distance < 0) {
+          countdownElement.innerHTML = "🔄 Actualizando...";
+          
+          if (distance < -5000) {
+             setTimeout(() => {
+               if (typeof Turbo !== 'undefined') {
+                  Turbo.visit(window.location.href, { action: "replace" });
+               } else {
+                  window.location.reload();
+               }
+             }, 2000);
+          } else {
              if (typeof Turbo !== 'undefined') {
                 Turbo.visit(window.location.href, { action: "replace" });
              } else {
                 window.location.reload();
              }
-           }, 2000);
-        } else {
-           // Recarga rápida
-           if (typeof Turbo !== 'undefined') {
-              Turbo.visit(window.location.href, { action: "replace" });
-           } else {
-              window.location.reload();
-           }
+          }
+          
+          clearInterval(window.timerInterval);
+          return;
         }
-        
-        clearInterval(window.timerInterval);
-        return;
+
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        countdownElement.innerHTML = minutes + ":" + seconds;
       }
 
-      // Matemáticas de tiempo
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-
-      countdownElement.innerHTML = minutes + ":" + seconds;
+      updateTimer();
+      window.timerInterval = setInterval(updateTimer, 1000);
     }
 
-    // Arrancar
-    updateTimer();
-    window.timerInterval = setInterval(updateTimer, 1000);
-    console.log("✅ Reloj corriendo.");
-  }
+    document.addEventListener("turbo:load", iniciarReloj);
+    document.addEventListener("DOMContentLoaded", iniciarReloj);
+  </script>
 
-  // INTENTO 1: Modo Turbo (Rails 7/8)
-  document.addEventListener("turbo:load", iniciarReloj);
-
-  // INTENTO 2: Modo Clásico (Por si Turbo falla)
-  document.addEventListener("DOMContentLoaded", iniciarReloj);
-</script>
+<% else %>
+  <div class="section" style="text-align: center; background-color: #95a5a6; color: white; padding: 30px;">
+    <h3> La Ruleta está detenida</h3>
+    <p>Crea al menos un jugador arriba para iniciar el sistema automático.</p>
+  </div>
+<% end %>
 
 <div class="section">
   <h2>+ Crear Nuevo Jugador</h2>
