@@ -2,6 +2,10 @@ class RoundsService
   def self.play_round
     weather_service = WeatherService.new
     weather = weather_service.current_weather
+    
+
+    shared_wheel_result = Round.spin_wheel 
+
 
     Player.all.each do |player|
       next if player.balance == 0
@@ -10,7 +14,8 @@ class RoundsService
       next if bet_amount == 0
       
       bet_color = player.choose_color(weather[:condition])
-      wheel_result = Round.spin_wheel
+      
+      wheel_result = shared_wheel_result 
       
       winnings = 0
       result = 'Perdió'
@@ -20,7 +25,6 @@ class RoundsService
         winnings = (bet_color == 'Verde') ? (bet_amount * 15) : (bet_amount * 2)
       end
 
-      # Actualizar balance: Restamos apuesta, sumamos ganancia
       player.update(balance: player.balance - bet_amount + winnings)
 
       Round.create(
