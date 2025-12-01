@@ -1,0 +1,20 @@
+<div class="section" style="max-width: 600px; margin: 0 auto;">
+  <h1>✏️ Editar Jugador</h1>
+  
+  <%= form_with(model: @player, local: true) do |form| %>
+    <div style="margin-bottom: 15px;">
+      <%= form.label :name, "Nombre:", style: "display:block; margin-bottom:5px;" %>
+      <%= form.text_field :name, required: true %>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <%= form.label :balance, "Balance ($):", style: "display:block; margin-bottom:5px;" %>
+      <%= form.number_field :balance, min: 0, required: true %>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <%= form.submit "Actualizar Jugador" %>
+      <%= link_to "Cancelar", players_path, style: "padding: 10px; color: #666;" %>
+    </div>
+  <% end %>
+</div>
